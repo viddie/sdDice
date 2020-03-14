@@ -1,17 +1,17 @@
 {
   "Actions": [
     {
-      "Icon": "images/actionIcon", 
+      "Icon": "images/pluginIcon", 
       "Name": "Dice", 
       "States": [
         {
-          "Image": "images/pluginIcon",
+          "Image": "images/actionIcon",
           "TitleAlignment": "middle", 
           "FontSize": "16"
         }
       ], 
       "SupportedInMultiActions": false,
-      "Tooltip": "Roll a 6 sided dice.", 
+      "Tooltip": "Roll a dice.", 
       "UUID": "com.viddie.dice.action"
     }
   ], 
@@ -19,9 +19,9 @@
   "Author": "viddie", 
   "CodePath": "code.html", 
   "PropertyInspectorPath": "propertyinspector/index.html",
-  "Description": "A simple plugin to roll a dice or any other range, your choice.", 
+  "Description": "A simple plugin to roll a dice or any other range, your choice", 
   "Name": "Dice", 
-  "Icon": "images/pluginIcon", 
+  "Icon": "images/actionIcon", 
   "URL": "https://github.com/viddie/sdDice", 
   "Version": "1.0",
   "OS": [
