@@ -91,7 +91,11 @@ var fontMagnitudes = {
 					return;
 				}
 				
-				var lastRoll = Math.floor(Math.random()*(handleObj.settings.upperLimit-handleObj.settings.lowerLimit+1)+handleObj.settings.lowerLimit) || null;
+				var lastRoll = Math.floor(Math.random()*(handleObj.settings.upperLimit-handleObj.settings.lowerLimit+1)+handleObj.settings.lowerLimit);
+				if(!lastRoll && lastRoll !== 0){
+					lastRoll = null;
+				}
+				
 				console.log("Rolled a: "+lastRoll);
 				
 				diceAction.updateSettings(context, {lastRoll: lastRoll});
