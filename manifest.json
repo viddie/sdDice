@@ -1,0 +1,41 @@
+{
+  "Actions": [
+    {
+      "Icon": "images/actionIcon", 
+      "Name": "Dice", 
+      "States": [
+        {
+          "Image": "images/pluginIcon",
+          "TitleAlignment": "middle", 
+          "FontSize": "16"
+        }
+      ], 
+      "SupportedInMultiActions": false,
+      "Tooltip": "Roll a 6 sided dice.", 
+      "UUID": "com.viddie.dice.action"
+    }
+  ], 
+  "SDKVersion": 2,
+  "Author": "viddie", 
+  "CodePath": "code.html", 
+  "PropertyInspectorPath": "propertyinspector/index.html",
+  "Description": "Just roll with it.", 
+  "Name": "Dice", 
+  "Icon": "images/pluginIcon", 
+  "URL": "https://www.elgato.com/gaming/stream-deck", 
+  "Version": "1.4",
+  "OS": [
+    {
+        "Platform": "mac", 
+        "MinimumVersion" : "10.11"
+    },
+    {
+        "Platform": "windows", 
+        "MinimumVersion" : "10"
+    }
+  ],
+  "Software": 
+    {
+        "MinimumVersion" : "4.1"
+    }
+}
