@@ -175,7 +175,7 @@ var fontMagnitudes = {
 				
 				
 				if(num === null || (num <= 6 && num >= 1)){
-					let resImageURL = "images/pluginIcon.svg";
+					let resImageURL = "images/pluginIcon.png";
 					if(num <= 6 && num >= 1){
 						resImageURL = results[""+num];
 					}
