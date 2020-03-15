@@ -17,7 +17,7 @@
   ], 
   "SDKVersion": 2,
   "Author": "viddie", 
-  "CodePath": "code.html", 
+  "CodePath": "index.html", 
   "PropertyInspectorPath": "propertyinspector/index.html",
   "Description": "A simple plugin to roll a dice or any other range, your choice", 
   "Name": "Dice", 
