@@ -47,7 +47,6 @@ var fontMagnitudes = {
 			defaultHandleObj: {
 				timer: null,
 				canvas: null,
-				ctxFilter: null,
 				hadLongPress: false,
 				
 				settings: {
@@ -170,12 +169,9 @@ var fontMagnitudes = {
 				}
 				
 				let ctx = handleObj.canvas.getContext("2d");
-				if(handleObj.ctxFilter === null) handleObj.ctxFilter = ctx.filter;
-				
-				ctx.filter = handleObj.ctxFilter;
+				ctx.filter = "none";
 				ctx.fillStyle = "#0A1423";
 				ctx.fillRect(0, 0, handleObj.canvas.width, handleObj.canvas.height);
-				
 				
 				
 				if(num === null || (num <= 6 && num >= 1)){

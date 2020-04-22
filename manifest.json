@@ -23,7 +23,7 @@
   "Name": "Dice", 
   "Icon": "images/actionIcon", 
   "URL": "https://github.com/viddie/sdDice", 
-  "Version": "1.0",
+  "Version": "1.0.2",
   "OS": [
     {
         "Platform": "mac", 
