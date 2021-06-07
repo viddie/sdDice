@@ -22,6 +22,16 @@
 				<summary>Limits are inclusive</summary>
 			</details>
 		</div>
+		<div type="checkbox" class="sdpi-item">
+			<div class="sdpi-item-label">Disable Dice Faces</div>
+			<input class="sdpi-item-value" id="disableDF" type="checkbox" value="left" onclick="sendValueToPlugin(event.target.checked, 'disableDF')">
+			<label for="disableDF"><span></span></label>
+		</div>
+		<div class="sdpi-item">
+			<details class="message">
+				<summary>Dice faces are used for rolls from 1-6, numbers are used above 6.</summary>
+			</details>
+		</div>
 		<details>
 			<summary>License</summary>
 			<p>All icons are taken from FontAwesome</p>
@@ -50,6 +60,7 @@
 		var elements = {
 			lowerLimit: null,
 			upperLimit: null,
+			disableDF: null,
 		}
 
 		$SD.on('connected', (jsonObj) => connected(jsonObj));
@@ -66,6 +77,10 @@
 					console.log("Got upper limit value: "+jsonObj.payload.settings.upperLimit);
 					elements.upperLimit.value = jsonObj.payload.settings.upperLimit;
 				}
+				if (jsonObj.payload.settings.hasOwnProperty('disableDF')) {
+					console.log("Got disableDF value: "+jsonObj.payload.settings.disableDF);
+					elements.disableDF.checked = jsonObj.payload.settings.disableDF;
+				}
 				
 			} else if (jsonObj && jsonObj.payload) {
 				if (jsonObj.payload.hasOwnProperty('lowerLimit')) {
@@ -75,6 +90,10 @@
 				if (jsonObj.payload.hasOwnProperty('upperLimit')) {
 					console.log("Got upper limit value: "+jsonObj.payload.upperLimit);
 					elements.upperLimit.value = jsonObj.payload.upperLimit;
+				}
+				if (jsonObj.payload.hasOwnProperty('disableDF')) {
+					console.log("Got disableDF value: "+jsonObj.payload.disableDF);
+					elements.disableDF.checked = jsonObj.payload.disableDF;
 				}
 			}
 		}
@@ -87,6 +106,7 @@
 
 			elements.lowerLimit = document.querySelector("#lowerLimit");
 			elements.upperLimit = document.querySelector("#upperLimit");
+			elements.disableDF = document.querySelector("#disableDF");
 			
 			const btOpen = document.querySelector("#btOpenFontAwesome");
 			btOpen.addEventListener("click", () => {

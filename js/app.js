@@ -52,6 +52,7 @@ var fontMagnitudes = {
 				settings: {
 					lowerLimit: 1,
 					upperLimit: 6,
+					disableDF: false,
 					lastRoll: null,
 				},
 			},
@@ -120,6 +121,9 @@ var fontMagnitudes = {
 					if(settings.hasOwnProperty('upperLimit')){
 						handleObj.settings.upperLimit = parseInt(settings["upperLimit"]) || 6;
 					}
+					if(settings.hasOwnProperty('disableDF')){
+						handleObj.settings.disableDF = Boolean(settings["disableDF"]) || false;
+					}
 				}
 				
 				this.setDiceRoll(context, handleObj.settings.lastRoll);
@@ -135,6 +139,7 @@ var fontMagnitudes = {
 						{
 							lowerLimit: handleObj.settings.lowerLimit,
 							upperLimit: handleObj.settings.upperLimit,
+							disableDF: handleObj.settings.disableDF,
 						},
 						this.type
 					);
@@ -147,6 +152,10 @@ var fontMagnitudes = {
 						const val = parseInt(jsonObj.payload['upperLimit']) || 6;
 						handleObj.settings.upperLimit = val;
 					}
+					if (jsonObj.payload.hasOwnProperty('disableDF')) {
+						const val = Boolean(jsonObj.payload['disableDF']) || false;
+						handleObj.settings.disableDF = val;
+					}
 					
 					if(handleObj.settings.lowerLimit > handleObj.settings.upperLimit){
 						let temp = handleObj.settings.lowerLimit;
@@ -157,15 +166,20 @@ var fontMagnitudes = {
 					diceAction.updateSettings(context, {
 						lowerLimit: handleObj.settings.lowerLimit,
 						upperLimit: handleObj.settings.upperLimit,
+						disableDF: handleObj.settings.disableDF,
 					});
 				}
 			},
 			
 			setDiceRoll : function(context, num){
 				let handleObj = this.getHandleObjFromCache(context);
+
 				
 				if(handleObj.canvas === null){
-					handleObj.canvas = document.getElementById("canvas");
+					handleObj.canvas = document.createElement("canvas");
+					handleObj.canvas.width = 144;
+					handleObj.canvas.height = 144;
+					handleObj.canvas.context = context;
 				}
 				
 				let ctx = handleObj.canvas.getContext("2d");
@@ -174,7 +188,7 @@ var fontMagnitudes = {
 				ctx.fillRect(0, 0, handleObj.canvas.width, handleObj.canvas.height);
 				
 				
-				if(num === null || (num <= 6 && num >= 1)){
+				if(!handleObj.settings.disableDF && (num === null || (num <= 6 && num >= 1))){
 					let resImageURL = "images/pluginIcon.png";
 					if(num <= 6 && num >= 1){
 						resImageURL = results[""+num];
@@ -184,7 +198,9 @@ var fontMagnitudes = {
 					let img = new Image();
 					img.onload = () => {
 						ctx.filter = "brightness(0) saturate(100%) invert(38%) sepia(62%) saturate(2063%) hue-rotate(209deg) brightness(90%) contrast(95%)";
-						
+
+						var handleObj = this.getHandleObjFromCache(context);
+
 						var imageMargin = 20;
 						var imageAspectRatio = img.width / img.height;
 						var canvasAspectRatio = handleObj.canvas.width / handleObj.canvas.height;
