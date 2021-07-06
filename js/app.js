@@ -52,6 +52,9 @@ var fontMagnitudes = {
 				settings: {
 					lowerLimit: 1,
 					upperLimit: 6,
+					diceAmount: 1,
+					median: false,
+					addValue: 0,
 					disableDF: false,
 					lastRoll: null,
 				},
@@ -91,10 +94,24 @@ var fontMagnitudes = {
 					return;
 				}
 				
-				var lastRoll = Math.floor(Math.random()*(handleObj.settings.upperLimit-handleObj.settings.lowerLimit+1)+handleObj.settings.lowerLimit);
-				if(!lastRoll && lastRoll !== 0){
-					lastRoll = null;
+				rolls = [];
+				lastRoll = 0;
+				for (let i = 0; i < handleObj.settings.diceAmount; i++)
+				{
+					rolls.push(Math.floor(Math.random()*(handleObj.settings.upperLimit-handleObj.settings.lowerLimit+1)+handleObj.settings.lowerLimit));
 				}
+				
+				if (handleObj.settings.median) {
+					rolls = rolls.sort();
+					len = rolls.length;
+					mid = Math.ceil(len / 2);
+					lastRoll = len % 2 == 0 ? rolls[mid] : rolls[mid - 1];
+				}
+				else {
+					rolls.forEach(function(value, index, array) { lastRoll += value; });
+				}
+				
+				lastRoll += handleObj.settings.addValue;
 				
 				console.log("Rolled a: "+lastRoll);
 				
@@ -121,6 +138,15 @@ var fontMagnitudes = {
 					if(settings.hasOwnProperty('upperLimit')){
 						handleObj.settings.upperLimit = parseInt(settings["upperLimit"]) || 6;
 					}
+					if(settings.hasOwnProperty('diceAmount')){
+						handleObj.settings.diceAmount = parseInt(settings["diceAmount"]) || 1;
+					}
+					if(settings.hasOwnProperty('median')){
+						handleObj.settings.median = Boolean(settings["median"]) || false;
+					}
+					if(settings.hasOwnProperty('addValue')){
+						handleObj.settings.addValue = parseInt(settings["addValue"]) || 0;
+					}
 					if(settings.hasOwnProperty('disableDF')){
 						handleObj.settings.disableDF = Boolean(settings["disableDF"]) || false;
 					}
@@ -139,6 +165,9 @@ var fontMagnitudes = {
 						{
 							lowerLimit: handleObj.settings.lowerLimit,
 							upperLimit: handleObj.settings.upperLimit,
+							diceAmount: handleObj.settings.diceAmount,
+							median: handleObj.settings.median,
+							addValue: handleObj.settings.addValue,
 							disableDF: handleObj.settings.disableDF,
 						},
 						this.type
@@ -152,6 +181,18 @@ var fontMagnitudes = {
 						const val = parseInt(jsonObj.payload['upperLimit']) || 6;
 						handleObj.settings.upperLimit = val;
 					}
+					if (jsonObj.payload.hasOwnProperty('diceAmount')) {
+						const val = parseInt(jsonObj.payload['diceAmount']) || 1;
+						handleObj.settings.diceAmount = val;
+					}
+					if (jsonObj.payload.hasOwnProperty('median')) {
+						const val = Boolean(jsonObj.payload['median']) || false;
+						handleObj.settings.median = val;
+					}
+					if (jsonObj.payload.hasOwnProperty('addValue')) {
+						const val = parseInt(jsonObj.payload['addValue']) || 0;
+						handleObj.settings.addValue = val;
+					}					
 					if (jsonObj.payload.hasOwnProperty('disableDF')) {
 						const val = Boolean(jsonObj.payload['disableDF']) || false;
 						handleObj.settings.disableDF = val;
@@ -162,10 +203,13 @@ var fontMagnitudes = {
 						handleObj.settings.lowerLimit = handleObj.settings.upperLimit;
 						handleObj.settings.upperLimit = temp;
 					}
-					
+	
 					diceAction.updateSettings(context, {
 						lowerLimit: handleObj.settings.lowerLimit,
 						upperLimit: handleObj.settings.upperLimit,
+						diceAmount: handleObj.settings.diceAmount,
+						median: handleObj.settings.median,
+						addValue: handleObj.settings.addValue,
 						disableDF: handleObj.settings.disableDF,
 					});
 				}
