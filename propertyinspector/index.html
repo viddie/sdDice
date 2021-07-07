@@ -22,6 +22,19 @@
 				<summary>Limits are inclusive</summary>
 			</details>
 		</div>
+		<div class="sdpi-item">
+			<div class="sdpi-item-label">Amount of dice</div>
+			<input inputmode="numeric" pattern="[1-9]*" type="number" class="sdpi-item-value" id="diceAmount" onchange="sendValueToPlugin(event.target.value, 'diceAmount')" placeholder="1">
+		</div>
+		<div type="checkbox" class="sdpi-item">
+			<div class="sdpi-item-label">Median</div>
+			<input class="sdpi-item-value" id="median" type="checkbox" value="left" onclick="sendValueToPlugin(event.target.checked, 'median')">
+			<label for="median"><span></span></label>
+		</div>
+		<div class="sdpi-item">
+			<div class="sdpi-item-label">Add value</div>
+			<input inputmode="numeric" pattern="[0-9]*" type="number" class="sdpi-item-value" id="addValue" onchange="sendValueToPlugin(event.target.value, 'addValue')" placeholder="0">
+		</div>	
 		<div type="checkbox" class="sdpi-item">
 			<div class="sdpi-item-label">Disable Dice Faces</div>
 			<input class="sdpi-item-value" id="disableDF" type="checkbox" value="left" onclick="sendValueToPlugin(event.target.checked, 'disableDF')">
@@ -61,6 +74,9 @@
 			lowerLimit: null,
 			upperLimit: null,
 			disableDF: null,
+			diceAmount: null,
+			median: null,
+			addValue: null,
 		}
 
 		$SD.on('connected', (jsonObj) => connected(jsonObj));
@@ -76,6 +92,18 @@
 				if (jsonObj.payload.settings.hasOwnProperty('upperLimit')) {
 					console.log("Got upper limit value: "+jsonObj.payload.settings.upperLimit);
 					elements.upperLimit.value = jsonObj.payload.settings.upperLimit;
+				}		
+				if (jsonObj.payload.settings.hasOwnProperty('diceAmount')) {
+					console.log("Got diceAmount value: "+jsonObj.payload.settings.diceAmount);
+					elements.diceAmount.value = jsonObj.payload.settings.diceAmount;
+				}
+				if (jsonObj.payload.settings.hasOwnProperty('median')) {
+					console.log("Got median value: "+jsonObj.payload.settings.median);
+					elements.median.checked = jsonObj.payload.settings.median;
+				}
+				if (jsonObj.payload.settings.hasOwnProperty('addValue')) {
+					console.log("Got addValue value: "+jsonObj.payload.settings.addValue);
+					elements.addValue.value = jsonObj.payload.settings.addValue;
 				}
 				if (jsonObj.payload.settings.hasOwnProperty('disableDF')) {
 					console.log("Got disableDF value: "+jsonObj.payload.settings.disableDF);
@@ -90,6 +118,18 @@
 				if (jsonObj.payload.hasOwnProperty('upperLimit')) {
 					console.log("Got upper limit value: "+jsonObj.payload.upperLimit);
 					elements.upperLimit.value = jsonObj.payload.upperLimit;
+				}
+				if (jsonObj.payload.hasOwnProperty('diceAmount')) {
+					console.log("Got diceAmount value: "+jsonObj.payload.diceAmount);
+					elements.diceAmount.value = jsonObj.payload.diceAmount;
+				}
+				if (jsonObj.payload.hasOwnProperty('addValue')) {
+					console.log("Got addValue value: "+jsonObj.payload.addValue);
+					elements.addValue.value = jsonObj.payload.addValue;
+				}
+				if (jsonObj.payload.hasOwnProperty('median')) {
+					console.log("Got median value: "+jsonObj.payload.median);
+					elements.median.checked = jsonObj.payload.median;
 				}
 				if (jsonObj.payload.hasOwnProperty('disableDF')) {
 					console.log("Got disableDF value: "+jsonObj.payload.disableDF);
@@ -106,6 +146,9 @@
 
 			elements.lowerLimit = document.querySelector("#lowerLimit");
 			elements.upperLimit = document.querySelector("#upperLimit");
+			elements.diceAmount = document.querySelector("#diceAmount");
+			elements.median = document.querySelector("#median");
+			elements.addValue = document.querySelector("#addValue");
 			elements.disableDF = document.querySelector("#disableDF");
 			
 			const btOpen = document.querySelector("#btOpenFontAwesome");
